@@ -1,0 +1,33 @@
+#MAPPING
+variable "AMIs" {
+  type = map(any)
+  default = {
+    ubuntu = "ami-052efd3df9dad4825"
+    linux  = "ami-05fa00d4c63e32376"
+  }
+}
+variable "aws_region" {
+  description = "AWS region"
+  type        = map(any)
+  default     = {
+    NV = "us-east-1"
+    cal = "us-west-1"
+  }
+}
+variable "tags" {
+  type    = string
+  default = "nitesh-don-terraform"
+}
+resource "aws_s3_bucket" "bucket" {
+  bucket = "my-tf-test-bucket2345666677768"
+  tags = {
+    Name = var.tags
+  }
+}
+resource "aws_instance" "web" {
+  ami           = var.AMIs.ubuntu
+  instance_type = "t2.micro"
+  tags = {
+    Name = var.tags
+  }
+}
